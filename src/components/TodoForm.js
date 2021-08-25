@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 const initialFormValues = {
     name: '',
-    age: 18,
     email: '',
     dateBirth: '',
+    age: '',
     country: '',
     group: '',
 }
 
-const TodoForm = ({todoAdd, todoUpdate, todoEdit, setTodoEdit}) => {
+const TodoForm = ({listGroup, optionsCountry, optionsGroup, todoAdd, todoUpdate, todoEdit, setTodoEdit}) => {
 
     const [formValues, setFormValues] = useState(initialFormValues)
     const {name, age, email, dateBirth, country, group} = formValues
@@ -53,10 +53,10 @@ const TodoForm = ({todoAdd, todoUpdate, todoEdit, setTodoEdit}) => {
 
         if(todoEdit){
             todoUpdate(formValues);
-            setSuccess('The task was edited.');
+            setSuccess('The student was edited.');
         }else{
            todoAdd(formValues); 
-           setSuccess('The task was saved.');
+           setSuccess('The student was saved.');
            setFormValues(initialFormValues);
         }  
        
@@ -68,8 +68,9 @@ const TodoForm = ({todoAdd, todoUpdate, todoEdit, setTodoEdit}) => {
       
     }
     
-    return ( 
+    return (
         <div>
+            <div>
             <h1>{ todoEdit ? 'Edit Student' : 'New Student'}</h1>
             {
                 todoEdit && (
@@ -85,71 +86,90 @@ const TodoForm = ({todoAdd, todoUpdate, todoEdit, setTodoEdit}) => {
                     placeholder="Name" 
                     className="form-control"
                     value={name}
-                    name="Name"
+                    name="name"
                     onChange={handleInputChange}
                 />
 
                 <div class="row mt-2">
                     <div class="col">
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Email student" />
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="exampleFormControlInput1" 
+                        placeholder="Email student"
+                        value={email}
+                        name="email"
+                        onChange={handleInputChange}
+                    />
                     </div>
                     <div class="col">
-                    <input type="text" class="form-control" placeholder="Age student" />
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            placeholder="Age student"
+                            value={age}
+                            name="age"
+                            onChange={handleInputChange}
+                        />                       
                     </div>
                 </div>
 
                 <div class="row mt-2">
-                    <div class="col-5">
-                    
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate" />
-                        <label class="form-check-label" for="flexCheckIndeterminate">
-                            Male
-                        </label>
-                    </div>
-
-                    </div>
-                    <div class="col-7">
+                    <div class="col-12">
                         <label className="ml-1" style = {{color:'green'}} for="birthday">Date:</label>                  
-                        <input style = {{marginLeft:'3px'}} type="date" id="birthday" name="birthday" />                        
+                        <input 
+                            style = {{marginLeft:'3px'}} 
+                            type="date" 
+                            id="dateBirth" 
+                            name="dateBirth"
+                            value={dateBirth}
+                            onChange={handleInputChange}
+                        />                        
                     </div>
                 </div>
 
                 <div class="row mt-2">
                     <div class="col">                    
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Select Age</option>
-                            <option value="10">10</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
+                        <select
+                            class="form-select" 
+                            aria-label="Default select example"
+                            id="group"    
+                            name="group"
+                            value={group}
+                            onChange={handleInputChange}  
+                        >
+                            options = 
+                            {
+                                optionsGroup.map( option =>(
+                                    <option value={option.value}>{option.label}</option>
+                                ))
+                            }
                         </select>
                     </div>
 
                     <div class="col">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Select Country</option>
-                            <option value="havana">Havana</option>
-                            <option value="pinar del rio">Pinar del Rio</option>
-                            <option value="matanzas">Matanzas</option>
-                            <option value="villa clara">Villa Clara</option>
-                            <option value="sancti-spiritus">Sancti-Spiritus</option>
-                            <option value="Camaguey">Camaguey</option>
-                            <option value="Holguin">Holguin</option>
-                            <option value="santiago de cuba">Santiago de Cuba</option>
+                        <select                            
+                            class="form-select" 
+                            aria-label="Default select example"
+                            id="country"    
+                            name="country"
+                            value={country}
+                            onChange={handleInputChange}
+                        >
+                            options = 
+                            {
+                                optionsCountry.map( option =>(
+                                    <option value={option.value}>{option.label}</option>
+                                ))
+                            }    
+                            
                         </select>                        
                     </div>
                 </div>
 
                 <button 
                     className="btn btn-primary btn-block mt-4 form-control" style = {{backgroundColor:'green'}}>
-                    { todoEdit ? 'Edit Task' : 'Add Task'}
+                    { todoEdit ? 'Edit Student' : 'Add Student'}
                 </button>
             </form>
 
@@ -162,6 +182,8 @@ const TodoForm = ({todoAdd, todoUpdate, todoEdit, setTodoEdit}) => {
                 success && (<div className="alert alert-info info mt-2"> { success } </div> )             
             }            
         </div>
+           
+        </div> 
         
      );
 }

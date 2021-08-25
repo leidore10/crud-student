@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
-import Quote from './components/quote';
+import GroupList from './components/GroupList ';
 
 const initialTodos = [
     {
@@ -26,11 +26,51 @@ const initialTodos = [
     }
 ]
 
+const initialOptionsGroup = [
+    { value: '0', label: 'Select Group' },
+    { value: 'a1', label: 'A 1' },
+    { value: 'a1', label: 'A 2' },
+    { value: 'b1', label: 'B 1' },
+    { value: 'b2', label: 'B 2' },
+  ];
+
+
+const initialOptionsCountry = [
+    { value: '0', label: 'Select Group' },
+    { value: 'havana', label: 'Havana' },
+    { value: 'pinar del rio', label: 'Pinar del Rio' },
+    { value: 'matanzas', label: 'Matanzas' },
+    { value: 'villa clara', label: 'Villa Clara' },
+    { value: 'sancti-spiritus', label: 'Sancti-Spiritus' },
+    { value: 'Camaguey', label: 'Camaguey' },
+    { value: 'Holguin', label: 'Holguin' },
+    { value: 'santiago de cuba', label: 'Santiago de Cuba' },
+  ];
+
+  const initialTeacher = [
+    { value: '0', label: 'Select Teacher' },
+    { value: 'gob alisson', label: 'Gob Alisson' },
+    { value: 'buster river', label: 'Buster River' },
+    { value: 'george michael', label: 'George Michael' },
+    { value: 'attony neon', label: 'Attony Neon' }, 
+  ]
+
+  const initialListGroup = [
+    {id: 1, name: 'A 1', teacher: 'Buster River'},
+    {id: 2, name: 'A 2', teacher: 'Gob Alisson'},
+    {id: 3, name: 'B 1', teacher: 'Attony Neon'},  
+    {id: 4, name: 'B 2', teacher: 'George Michael'},
+  ]
+
 const localTodos = JSON.parse(localStorage.getItem('todos'));
 
 const App = () => {
 
     const [todos, setTodos] = useState(localTodos || initialTodos);
+    const [optionsGroup, setOptionsGroup] = useState(initialOptionsGroup);
+    const [optionsCountry, setOptionsCountry] = useState(initialOptionsCountry);
+    //const [optionsCountry, setOptionsCountry] = useState(initialOptionsCountry);
+    const [listGroup, setListGroup] = useState(initialListGroup);
     const [todoEdit, setTodoEdit] = useState(null);
 
     useEffect(() => {
@@ -86,8 +126,16 @@ const App = () => {
     }
 
     return ( 
-        <div className="container mt-4">
+        <div className="container-fluid mt-4">
             <div className="row">
+                <div className="col">
+                <GroupList 
+                    listGroup={listGroup}
+                    todoDelete={todoDelete}
+                    todoToogleComplete={todoToogleComplete}
+                    setTodoEdit={setTodoEdit}
+                    />
+                </div>
                 <div className="col">
                     <TodoList 
                     todos={todos}
@@ -99,7 +147,10 @@ const App = () => {
 
                 <div className="col">
                     <TodoForm
-                      todoAdd={todoAdd}  
+                      optionsCountry={optionsCountry}  
+                      optionsGroup={optionsGroup}
+                      listGroup={listGroup}
+                      todoAdd={todoAdd}                        
                       todoUpdate={todoUpdate}  
                       todoEdit={todoEdit}
                       setTodoEdit={setTodoEdit}
